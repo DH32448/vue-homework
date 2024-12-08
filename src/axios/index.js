@@ -178,7 +178,8 @@ function getStuPage(pagenum, lines, success, failure = defaultFailure) {
 }
 // 删除clz
 function deleteClz(cno, success, failure = defaultFailure) {
-    if (!accessHeader['Authorization']) {
+    const headers = accessHeader();
+    if (!headers['Authorization']) {
         failure('未登录', 403, '/api/adm/clz/del/');
         return;
     }
@@ -186,6 +187,7 @@ function deleteClz(cno, success, failure = defaultFailure) {
 
     get(url, success, failure);
 }
+
 //添加clz
 function addClz(clzno, clzname, success, failure = defaultFailure) {
     const headers = accessHeader();
