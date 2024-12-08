@@ -35,22 +35,28 @@ const errorMessage = ref('');
 
 // 根据uid获取学生信息并填充表单
 onMounted(() => {
+  console.log('开始获取学生信息');
   getStu(
       (data) => {
+        console.log('获取学生信息成功:', data);
         const student = data.find((stu) => stu.uid === props.uid);
         if (student) {
           uname.value = student.uname;
           phone.value = student.phone;
           pwd.value = student.pwd;
+        } else {
+          console.log('未找到对应的学生信息');
         }
       },
       (msg, code) => {
+        console.error(`获取学生信息失败: 错误 ${code}: ${msg}`);
         errorMessage.value = `错误 ${code}: ${msg}`;
       }
   );
 });
 
 const handleSubmit = () => {
+  console.log('提交更新学生信息');
   updateStu(
       props.uid,
       uname.value,
@@ -58,18 +64,16 @@ const handleSubmit = () => {
       pwd.value,
       (data) => {
         console.log('学生更新成功:', data);
-        // 这里可以添加刷新列表或关闭模态框的逻辑
+
       },
       (msg, code) => {
-        errorMessage.value = `错误 ${code}: ${msg}`; // 设置错误消息
+        console.error(`更新学生信息失败: 错误 ${code}: ${msg}`);
+        errorMessage.value = `错误 ${code}: ${msg}`;
       }
   );
 };
 </script>
 
 <style scoped>
-.error {
-  color: red;
-  font-size: 1.2em;
-}
+
 </style>

@@ -1,12 +1,14 @@
-<script setup>import { ref } from 'vue';
+<script setup>
+import { ref } from 'vue';
 import { addClz } from '@/axios/index.js';
 
 const clzno = ref('');
 const clzname = ref('');
 
-const emit = defineEmits(['close', 'added']); // 添加一个新的事件 'added'
+const emit = defineEmits(['close', 'added']);
 
 const submitForm = () => {
+  console.log('开始提交表单');
   addClz(clzno.value, clzname.value,
       (data) => {
         console.log('班级添加成功:', data);
@@ -22,6 +24,7 @@ const submitForm = () => {
         console.error('班级添加失败:', message, status, url);
       }
   );
+  console.log('结束提交表单');
 };
 </script>
 
@@ -41,40 +44,5 @@ const submitForm = () => {
 </template>
 
 <style scoped>
-.form-group {
-  margin-bottom: 15px;
-}
 
-label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-input[type="text"] {
-  width: 100%;
-  padding: 8px;
-  box-sizing: border-box;
-}
-
-button {
-  padding: 10px 15px;
-  margin-right: 5px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-button[type="button"] {
-  background-color: #ccc;
-}
-
-button[type="button"]:hover {
-  background-color: #aaa;
-}
 </style>

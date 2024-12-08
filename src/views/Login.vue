@@ -10,9 +10,12 @@ export default {
   },
   methods: {
     login() {
+      console.log(`尝试登录，用户名: ${this.username}, 密码: ${this.password}`);
       login(this.username, this.password, () => {
         console.log('登录成功');
         this.$emit('login-success');
+      }, (error) => {
+        console.error('登录失败', error);
       });
     }
   }

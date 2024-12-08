@@ -32,8 +32,9 @@ import Login from "@/views/Login.vue";
 import Adm from "@/views/adm/Adm.vue";
 import Student from '@/views/student/show.vue'
 import Teacher from '@/views/teacher/show.vue'
+
 export default {
-  components: { Login, Adm,Student,Teacher },
+  components: { Login, Adm, Student, Teacher },
   data() {
     return {
       name: '请登录',
@@ -43,6 +44,7 @@ export default {
     };
   },
   mounted() {
+    console.log('Welcome.vue 组件已挂载');
     this.getUserInfo();
   },
   methods: {
@@ -53,31 +55,35 @@ export default {
         return;
       }
 
+      console.log('正在获取用户信息...');
       getUserInfo(
-          (userInfo) => {
-            console.log('用户信息:', userInfo);
-            this.name = userInfo.uname || '无名';
-            this.role = userInfo.role || '未知';
-            if (userInfo.pic) {
-              // 获取头像
-              getImage(userInfo.pic, (imageUrl) => {
-                this.userPic = imageUrl;
-              }, (message, code, url) => {
-                console.error(`获取头像失败: ${message}`);
-              });
-            }
-            this.loginViews = false;
-          },
-          (message, code, url) => {
-            console.error('获取用户信息失败:', message, code, url);
+        (userInfo) => {
+          console.log('用户信息:', userInfo);
+          this.name = userInfo.uname || '无名';
+          this.role = userInfo.role || '未知';
+          if (userInfo.pic) {
+            // 获取头像
+            console.log('正在获取头像...');
+            getImage(userInfo.pic, (imageUrl) => {
+              console.log('头像获取成功:', imageUrl);
+              this.userPic = imageUrl;
+            }, (message, code, url) => {
+              console.error(`获取头像失败: ${message}`);
+            });
           }
+          this.loginViews = false;
+        },
+        (message, code, url) => {
+          console.error('获取用户信息失败:', message, code, url);
+        }
       );
     },
     exit() {
+      console.log('用户退出登录');
       deleteAccessToken();
       this.name = '请登录';
       this.role = '';
-      this.userPic = ''; // 清除头像
+      this.userPic = '';
       this.loginViews = true;
     }
   }

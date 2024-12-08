@@ -63,10 +63,12 @@ const validateForm = () => {
     errors.value.confirmPassword = '新密码和确认密码不一致';
     isValid = false;
   }
+  console.log('表单验证结果:', isValid);
   return isValid;
 };
 
 const handleSubmit = () => {
+  console.log('表单提交事件触发');
   if (!validateForm()) return;
 
   isLoading.value = true;
@@ -90,4 +92,3 @@ const handleSubmit = () => {
   );
 };
 </script>
-

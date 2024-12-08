@@ -30,10 +30,11 @@ const emit = defineEmits(['update:visible', 'refreshCourses']);
 const cno = ref(props.course ? props.course.cno : '');
 const cname = ref(props.course ? props.course.cname : '');
 
-// Watch for changes in the course prop to update the form fields
+
 watch(
     () => props.course,
     (newCourse) => {
+      console.log('课程属性变化，更新表单字段:', newCourse);
       if (newCourse) {
         cno.value = newCourse.cno;
         cname.value = newCourse.cname;
@@ -43,7 +44,9 @@ watch(
 );
 
 const handleUpdate = () => {
+  console.log('开始更新课程，课程编号:', cno.value, '课程名称:', cname.value);
   updateCourse(cno.value, cname.value, () => {
+    console.log('更新课程成功');
     emit('refreshCourses');
     emit('update:visible', false);
   }, (message, code, url) => {
@@ -52,44 +55,11 @@ const handleUpdate = () => {
 };
 
 const updateVisible = (value) => {
+  console.log('更新模态框可见性:', value);
   emit('update:visible', value);
 };
 </script>
 
 <style scoped>
-form {
-  display: flex;
-  flex-direction: column;
-}
 
-div {
-  margin-bottom: 10px;
-}
-
-label {
-  margin-bottom: 5px;
-}
-
-input {
-  padding: 5px;
-  font-size: 16px;
-}
-
-input[readonly] {
-  background-color: #f4f4f4;
-  color: #666;
-}
-
-button {
-  padding: 10px;
-  font-size: 16px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #45a049;
-}
 </style>

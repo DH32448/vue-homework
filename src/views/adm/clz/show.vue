@@ -11,19 +11,24 @@ const showUpdateModal = ref(false);
 const selectedClass = ref(null);
 
 onMounted(() => {
+  console.log('开始获取班级信息');
   fetchClasses();
 });
 
 const fetchClasses = () => {
+  console.log('开始获取班级信息');
   getClz((data) => {
-    classes.value = data;  // 将返回的班级数据保存在 `classes` 中
+    console.log('获取班级信息成功:', data);
+    classes.value = data;  // 将返回的班级数据保存在classes中
   }, (message, code, url) => {
     console.error('获取班级信息失败:', message);
   });
 };
 
 const handleDelete = (clzno) => {
+  console.log('开始删除班级，班级编号:', clzno);
   deleteClz(clzno, () => {
+    console.log('删除班级成功，班级编号:', clzno);
     // 删除成功后，重新获取班级信息
     fetchClasses();
   }, (message, code, url) => {
@@ -32,26 +37,29 @@ const handleDelete = (clzno) => {
 };
 
 const openModal = () => {
+  console.log('打开添加班级模态框');
   showModal.value = true;
 };
 
 const openUpdateModal = (clz) => {
+  console.log('打开更新班级模态框，班级信息:', clz);
   selectedClass.value = clz;
   showUpdateModal.value = true;
 };
 
 const closeModal = () => {
+  console.log('关闭模态框');
   showModal.value = false;
   showUpdateModal.value = false;
 };
 
 const handleAdded = () => {
-  // 班级添加成功后，重新获取班级信息
+  console.log('班级添加成功，重新获取班级信息');
   fetchClasses();
 };
 
 const handleUpdated = () => {
-  // 班级更新成功后，重新获取班级信息
+  console.log('班级更新成功，重新获取班级信息');
   fetchClasses();
 };
 </script>

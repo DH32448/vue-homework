@@ -17,7 +17,7 @@ const handleSubmit = () => {
 
   updatePassword(oldPassword.value, newPassword.value, (data) => {
     alert('密码修改成功');
-    router.push('/'); // 密码修改成功后跳转到首页或其他页面
+    router.push('/');
   }, (message, status, url) => {
     alert(`密码修改失败: ${message}`);
   });

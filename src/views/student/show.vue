@@ -1,9 +1,13 @@
 <script setup>
+import { onMounted } from 'vue';
 
+onMounted(() => {
+  console.log('组件挂载完成');
+});
 </script>
 
 <template>
-  <div style="margin-left: 40px;border: 1px solid black;height: 100%">
+  <div style="margin-left: 40px; border: 1px solid black; height: 100%">
     <div style="float: left">
       <h2>学生主页</h2>
       <ul>
@@ -18,29 +22,12 @@
         </li>
       </ul>
     </div>
-    <div style="float: right;margin-right: 40px">
+    <div style="float: right; margin-right: 40px">
       <router-view/>
     </div>
   </div>
-
 </template>
 
 <style scoped>
-ul {
-  list-style-type: none;
-  padding: 0;
-}
 
-li {
-  margin: 10px 0;
-}
-
-a {
-  text-decoration: none;
-  color: blue;
-}
-
-a:hover {
-  text-decoration: underline;
-}
 </style>

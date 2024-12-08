@@ -38,9 +38,11 @@ import { getStudentMarks } from '@/axios/index.js';
 // 定义一个响应式变量来存储学生成绩数据
 const studentScores = ref([]);
 
-// 在组件挂载时调用 getStudentMarks 函数获取学生成绩
+// 调用 getStudentMarks 函数获取学生成绩
 onMounted(() => {
+  console.log('组件挂载，开始获取学生成绩');
   getStudentMarks((data) => {
+    console.log('获取学生成绩成功:', data);
     studentScores.value = data;
   }, (message, status, url) => {
     console.error(`获取学生成绩失败: ${message}`);
@@ -55,19 +57,5 @@ const formatDate = (dateString) => {
 </script>
 
 <style scoped>
-/* 可以在这里添加样式 */
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
 
-th, td {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-th {
-  background-color: #f2f2f2;
-  text-align: left;
-}
 </style>

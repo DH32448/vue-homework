@@ -47,10 +47,12 @@ const course = ref({ cno: '', cname: '' });
 const errorMessage = ref('');
 
 const openModal = () => {
+  console.log('打开模态框');
   isModalVisible.value = true;
 };
 
 const handleSubmit = () => {
+  console.log('提交任务', { user: user.value, clz: clz.value, course: course.value });
   addTask(
       user.value,
       clz.value,
@@ -59,18 +61,16 @@ const handleSubmit = () => {
         console.log('任务添加成功:', data);
         // 关闭模态框
         isModalVisible.value = false;
-        // 可以在这里添加其他逻辑，例如重置表单或显示成功消息
+
       },
       (msg, code) => {
-        errorMessage.value = `错误 ${code}: ${msg}`; // 设置错误消息
+        console.error(`任务添加失败: 错误 ${code}: ${msg}`);
+        errorMessage.value = `错误 ${code}: ${msg}`;
       }
   );
 };
 </script>
 
 <style scoped>
-.error {
-  color: red;
-  font-size: 1.2em;
-}
+
 </style>

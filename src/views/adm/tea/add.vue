@@ -9,16 +9,17 @@ const pwd = ref('');
 const emit = defineEmits(['close']);
 
 const handleSubmit = () => {
+  console.log('提交表单，准备添加教师');
   addTea(
       uname.value,
       phone.value,
       pwd.value,
       () => {
         console.log('教师添加成功');
-        emit('close'); // 关闭模态框
+        emit('close');
       },
       (message, code, url) => {
-        console.error(`添加教师失败: ${message}`);
+        console.error(`添加教师失败: 错误码 ${code}, 消息 ${message}, URL ${url}`);
       }
   );
 };
@@ -47,39 +48,5 @@ const handleSubmit = () => {
 </template>
 
 <style scoped>
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
 
-label {
-  font-weight: bold;
-}
-
-input {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-button[type="button"] {
-  background-color: #dc3545;
-}
-
-button[type="button"]:hover {
-  background-color: #c82333;
-}
 </style>

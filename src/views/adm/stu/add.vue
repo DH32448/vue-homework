@@ -11,6 +11,7 @@ const errorMessage = ref('');
 const router = useRouter();
 
 const handleSubmit = () => {
+  console.log('提交表单，开始添加学生');
   addStu(
       uname.value,
       phone.value,
@@ -20,7 +21,8 @@ const handleSubmit = () => {
         router.push({ name: 'ShowStudents' }); // 导航回学生列表页面
       },
       (msg, code) => {
-        errorMessage.value = `错误 ${code}: ${msg}`; // 设置错误消息
+        console.error(`添加学生失败: 错误 ${code}: ${msg}`);
+        errorMessage.value = `错误 ${code}: ${msg}`;
       }
   );
 };
@@ -49,8 +51,5 @@ const handleSubmit = () => {
 </template>
 
 <style scoped>
-.error {
-  color: red;
-  font-size: 1.2em;
-}
+
 </style>

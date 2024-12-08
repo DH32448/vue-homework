@@ -231,7 +231,7 @@ function addCourse(cno, cname, success, failure = defaultFailure) {
 
     post('/api/adm/course/add', data, success, failure);
 }
-// 更新课程的方法
+// 更新course
 function updateCourse(cno, cname, success, failure = defaultFailure) {
     const headers = accessHeader();
     if (!headers['Authorization']) {
@@ -245,6 +245,20 @@ function updateCourse(cno, cname, success, failure = defaultFailure) {
 
     post('/api/adm/course/update', data, success, failure);
 }
+//删除course
+function deleteCourse(cno, success, failure = defaultFailure) {
+    const headers = accessHeader();
+    if (!headers['Authorization']) {
+        failure('未登录', 403, `/api/adm/course/del/${cno}`);
+        return;
+    }
+
+    const url = `/api/adm/course/del/${cno}`;
+
+    get(url, success, failure);
+}
+
+
 //添加stu
 function addStu(uname, phone, pwd, success, failure = defaultFailure) {
     const headers = accessHeader();
@@ -455,6 +469,7 @@ export {
     getCourse, // 获取课程
     addCourse, // 添加新课程
     updateCourse, // 更新课程
+    deleteCourse,//删除课程
 
     // 学生管理
     getStu, // 获取学生列表

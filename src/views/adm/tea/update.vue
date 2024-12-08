@@ -32,68 +32,56 @@
 import { ref, onMounted } from 'vue';
 import { getUserInfo, getImage } from '@/axios/index.js';
 
+const formData = ref({
+  uid: '',
+  uname: '',
+  phone: '',
+  role: '',
+  pic: null
+});
 const userInfo = ref(null);
 const avatarUrl = ref('');
 
 // 获取用户信息和头像
 onMounted(() => {
+  console.log('开始获取用户信息');
   getUserInfo((data) => {
+    console.log('获取用户信息成功', data);
     userInfo.value = data;
+    formData.value = { ...data };
 
     if (data && data.pic) {
       getImage(data.pic, (imageUrl) => {
+        console.log('获取头像成功', imageUrl);
         avatarUrl.value = imageUrl;
       }, (message, code, url) => {
         console.error(`获取头像失败: ${message}`);
-        avatarUrl.value = '/path/to/default/avatar.png'; // 设置默认头像
       });
     } else {
-      avatarUrl.value = '/path/to/default/avatar.png'; // 设置默认头像
+      console.log('用户没有头像，设置默认头像');
     }
   }, (message, code, url) => {
     console.error(`获取用户信息失败: ${message}`);
   });
 });
+
+const handleSubmit = () => {
+  console.log('提交表单', formData.value);
+};
+
+const handleCancel = () => {
+  console.log('取消更新');
+};
+
+const handleFileChange = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    console.log('选择了新的头像文件', file.name);
+    formData.value.pic = file;
+  }
+};
 </script>
 
 <style scoped>
-form {
-  display: flex;
-  flex-direction: column;
-}
 
-div {
-  margin-bottom: 10px;
-}
-
-label {
-  margin-bottom: 5px;
-}
-
-input[type="text"],
-input[type="file"] {
-  padding: 5px;
-  font-size: 16px;
-}
-
-button {
-  margin-top: 10px;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-button.cancel {
-  background-color: #dc3545;
-}
-
-button.cancel:hover {
-  background-color: #c82333;
-}
 </style>

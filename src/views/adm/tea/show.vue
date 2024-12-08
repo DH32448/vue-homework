@@ -8,16 +8,24 @@ const teachers = ref([]);
 const showModal = ref(false);
 
 onMounted(() => {
+  console.log('开始获取教师信息');
   getTea((data) => {
+    console.log('获取教师信息成功', data);
     // 获取图片 URL 并存储在每个教师对象中
     Promise.all(data.map(teacher => {
-      return getImage(teacher.pic, (url) => {
-        teacher.imageUrl = url;
-      }, (message, code, url) => {
-        console.error(`获取图片失败: ${message}`);
+      return new Promise((resolve, reject) => {
+        getImage(teacher.pic, (url) => {
+          teacher.imageUrl = url;
+          resolve();
+        }, (message, code, url) => {
+          console.error(`获取图片失败: ${message}`);
+          reject(message);
+        });
       });
     })).then(() => {
       teachers.value = data;
+    }).catch(error => {
+      console.error('获取图片过程中发生错误:', error);
     });
   }, (message, code, url) => {
     console.error(`获取教师信息失败: ${message}`);
@@ -25,16 +33,20 @@ onMounted(() => {
 });
 
 const handleAddTeacher = () => {
+  console.log('点击添加教师按钮');
   showModal.value = true;
 };
 
 const handleCloseModal = () => {
+  console.log('关闭模态框');
   showModal.value = false;
 };
 
 // 新增删除教师的处理函数
 const handleDeleteTeacher = (uid) => {
+  console.log(`点击删除教师按钮，教师编号: ${uid}`);
   deleteTea(uid, () => {
+    console.log(`教师编号为 ${uid} 的教师删除成功`);
     // 删除成功后重新获取教师列表
     getTea((data) => {
       teachers.value = data;
@@ -59,7 +71,7 @@ const handleDeleteTeacher = (uid) => {
         <th>电话</th>
         <th>角色</th>
         <th>头像</th>
-        <th>操作</th> <!-- 新增操作列 -->
+        <th>操作</th>
       </tr>
       </thead>
       <tbody>
@@ -72,7 +84,7 @@ const handleDeleteTeacher = (uid) => {
           <img :src="teacher.imageUrl" alt="Teacher Image" style="width: 50px; height: 50px;">
         </td>
         <td>
-          <button @click="handleDeleteTeacher(teacher.uid)">删除</button> <!-- 新增删除按钮 -->
+          <button class="delete" @click="handleDeleteTeacher(teacher.uid)">删除</button>
         </td>
       </tr>
       </tbody>
@@ -85,44 +97,5 @@ const handleDeleteTeacher = (uid) => {
 </template>
 
 <style scoped>
-table {
-  width: 100%;
-  margin: 20px 0;
-  border-collapse: collapse;
-}
 
-th, td {
-  padding: 10px;
-  text-align: left;
-}
-
-th {
-  background-color: #f4f4f4;
-}
-
-tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-button {
-  margin-bottom: 10px;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-/* 删除按钮样式 */
-button.delete {
-  background-color: #dc3545;
-}
-
-button.delete:hover {
-  background-color: #c82333;
-}
 </style>

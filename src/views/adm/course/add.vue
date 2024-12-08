@@ -31,18 +31,21 @@ const isVisible = ref(false);
 const emit = defineEmits(['refreshCourses']);
 
 const handleModalVisibility = (visibility) => {
+  console.log('模态框可见性更新:', visibility);
   isVisible.value = visibility;
 };
 
 const openModal = () => {
+  console.log('打开模态框');
   isVisible.value = true;
 };
 
 const submitForm = () => {
+  console.log('提交表单，课程信息:', { cno: cno.value, cname: cname.value });
   addCourse(cno.value, cname.value,
       (data) => {
-        console.log('课程添加成功:', data);
         // alert('课程添加成功!');
+        console.log('课程添加成功:', data);
         // 通知父组件刷新课程列表
         emit('refreshCourses');
         // 关闭模态框
@@ -61,36 +64,5 @@ defineExpose({
 </script>
 
 <style scoped>
-form {
-  display: flex;
-  flex-direction: column;
-  max-width: 300px;
-  margin: 0 auto;
-}
 
-div {
-  margin-bottom: 10px;
-}
-
-label {
-  margin-bottom: 5px;
-}
-
-input {
-  padding: 8px;
-  font-size: 16px;
-}
-
-button {
-  padding: 10px;
-  font-size: 16px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #45a049;
-}
 </style>

@@ -24,11 +24,15 @@ const avatarUrl = ref('');
 
 // 获取用户信息和头像
 onMounted(() => {
+  console.log('开始获取用户信息');
   getUserInfo((data) => {
+    console.log('获取用户信息成功:', data);
     userInfo.value = data;
 
     if (data && data.pic) {
+      console.log('开始获取头像，图片ID:', data.pic);
       getImage(data.pic, (imageUrl) => {
+        console.log('获取头像成功:', imageUrl);
         avatarUrl.value = imageUrl;
       }, (message, code, url) => {
         console.error(`获取头像失败: ${message}`);

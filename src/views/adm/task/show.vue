@@ -29,10 +29,9 @@
   </div>
 </template>
 
-
 <script setup>
 import { ref, onMounted } from 'vue';
-import { getTask, addTask, deleteTask as apiDeleteTask } from '@/axios'; // 假设 deleteTask 函数放在 axios.js 文件中
+import { getTask, addTask, deleteTask as apiDeleteTask } from '@/axios';
 import Modal from '@/components/Modal.vue';
 
 const isModalVisible = ref(false);
@@ -44,8 +43,10 @@ const tasks = ref([]);
 
 // 请求任务数据
 onMounted(() => {
+  console.log('组件挂载，请求任务数据');
   getTask(
       (data) => {
+        console.log('获取任务成功:', data);
         tasks.value = data;
       },
       (message, status) => {
@@ -55,10 +56,11 @@ onMounted(() => {
 });
 
 const openModal = () => {
-  isModalVisible.value = true;
+  console.log('打开模态框');
 };
 
 const handleSubmit = () => {
+  console.log('提交任务', { user: user.value, clz: clz.value, course: course.value });
   addTask(
       user.value,
       clz.value,
@@ -70,20 +72,24 @@ const handleSubmit = () => {
         // 刷新任务列表
         getTask(
             (data) => {
+              console.log('刷新任务列表成功:', data);
               tasks.value = data;
             },
             (message, status) => {
-              console.error(`获取任务失败: ${message}, 状态码: ${status}`);
+              console.error(`刷新任务列表失败: ${message}, 状态码: ${status}`);
             }
         );
-        // 可以在这里添加其他逻辑，例如重置表单或显示成功消息
+
       },
       (msg, code) => {
-        errorMessage.value = `错误 ${code}: ${msg}`; // 设置错误消息
+        console.error(`任务添加失败: 错误 ${code}: ${msg}`);
+        errorMessage.value = `错误 ${code}: ${msg}`;
       }
   );
 };
+
 const deleteTask = (kid) => {
+  console.log('删除任务，任务ID:', kid);
   apiDeleteTask(
       kid,
       (data) => {
@@ -91,48 +97,22 @@ const deleteTask = (kid) => {
         // 刷新任务列表
         getTask(
             (data) => {
+              console.log('刷新任务列表成功:', data);
               tasks.value = data;
             },
             (message, status) => {
-              console.error(`获取任务失败: ${message}, 状态码: ${status}`);
+              console.error(`刷新任务列表失败: ${message}, 状态码: ${status}`);
             }
         );
       },
       (msg, code) => {
-        errorMessage.value = `错误 ${code}: ${msg}`; // 设置错误消息
+        console.error(`任务删除失败: 错误 ${code}: ${msg}`);
+        errorMessage.value = `错误 ${code}: ${msg}`;
       }
   );
 };
 </script>
 
 <style scoped>
-h2 {
-  font-size: 1.5em;
-  margin-bottom: 10px;
-}
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-th, td {
-  text-align: left;
-  padding: 8px;
-}
-th {
-  background-color: #f2f2f2;
-}
-.error {
-  color: red;
-  font-size: 1.2em;
-}
-button.delete {
-  background-color: red;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
-}
-button.delete:hover {
-  background-color: darkred;
-}
+
 </style>

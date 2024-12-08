@@ -12,7 +12,10 @@ const emit = defineEmits(['close', 'updated']);
 const clzno = ref(props.clzno);
 const clzname = ref(props.clzname);
 
+console.log('初始化班级信息:', { clzno: clzno.value, clzname: clzname.value });
+
 const submitForm = () => {
+  console.log('提交表单，班级信息:', { clzno: clzno.value, clzname: clzname.value });
   updateClz(clzno.value, clzname.value,
       (data) => {
         console.log('班级更新成功:', data);
@@ -44,40 +47,5 @@ const submitForm = () => {
 </template>
 
 <style scoped>
-.form-group {
-  margin-bottom: 15px;
-}
 
-label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-input[type="text"] {
-  width: 100%;
-  padding: 8px;
-  box-sizing: border-box;
-}
-
-button {
-  padding: 10px 15px;
-  margin-right: 5px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-button[type="button"] {
-  background-color: #ccc;
-}
-
-button[type="button"]:hover {
-  background-color: #aaa;
-}
 </style>
