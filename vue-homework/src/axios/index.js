@@ -163,4 +163,122 @@ function getTask(success, failure = defaultFailure) {
         }
     }, failure);
 }
-export { login, getUserInfo, deleteAccessToken, getClz, getCourse, getTea, getStu, getTask }
+// 获取stu分页
+function getStuPage(pagenum, lines, success, failure = defaultFailure) {
+    const headers = accessHeader();
+    if (!headers['Authorization']) {
+        failure('未登录', 403, '/api/adm/stu/findPage');
+        return;
+    }
+
+    const form = new FormData();
+    form.append("pagenum", pagenum);
+    form.append("lines", lines);
+
+    post('/api/adm/stu/findPage', form, success, failure);
+}
+// 删除clz
+
+// 删除clz
+function deleteClz(cno, success, failure = defaultFailure) {
+    if (!accessHeader['Authorization']) {
+        failure('未登录', 403, '/api/adm/clz/del/');
+        return;
+    }
+    const url = `/api/adm/clz/del/?clzno=${cno}`;
+
+    get(url, success, failure);
+}
+//添加clz
+function addClz(clzno, clzname, success, failure = defaultFailure) {
+    const headers = accessHeader();
+    if (!headers['Authorization']) {
+        failure('未登录', 403, '/api/adm/clz/add');
+        return;
+    }
+
+    const data = new FormData();
+    data.append("clzno", clzno);
+    data.append("clzname", clzname);
+
+    post('/api/adm/clz/add', data, success, failure);
+}
+// 更新clz
+function updateClz(clzno, clzname, success, failure = defaultFailure) {
+    const headers = accessHeader();
+    if (!headers['Authorization']) {
+        failure('未登录', 403, '/api/adm/clz/update');
+        return;
+    }
+
+    const data = new FormData();
+    data.append("clzno", clzno);
+    data.append("clzname", clzname);
+
+    post('/api/adm/clz/update', data, success, failure);
+}
+//添加course
+// 添加课程的方法
+function addCourse(cno, cname, success, failure = defaultFailure) {
+    const headers = accessHeader();
+    if (!headers['Authorization']) {
+        failure('未登录', 403, '/api/adm/course/add');
+        return;
+    }
+
+    const data = {
+        cno,
+        cname
+    };
+
+    post('/api/adm/course/add', data, success, failure);
+}
+// 更新课程的方法
+function updateCourse(cno, cname, success, failure = defaultFailure) {
+    const headers = accessHeader();
+    if (!headers['Authorization']) {
+        failure('未登录', 403, '/api/adm/course/update');
+        return;
+    }
+    const data = {
+        cno,
+        cname
+    };
+
+    post('/api/adm/course/update', data, success, failure);
+}
+//添加stu
+function addStu(uname, phone, pwd, success, failure = defaultFailure) {
+    const headers = accessHeader();
+    if (!headers['Authorization']) {
+        failure('未登录', 403, '/api/adm/stu/add');
+        return;
+    }
+
+    const data = new FormData();
+    data.append("uname", uname);
+    data.append("phone", phone);
+    data.append("pwd", pwd);
+
+    post('/api/adm/stu/add', data, success, failure);
+}
+//更新stu
+function updateStu(uid, uname, phone, pwd, success, failure = defaultFailure) {
+    const headers = accessHeader();
+    if (!headers['Authorization']) {
+        failure('未登录', 403, '/api/adm/stu/update');
+        return;
+    }
+
+    const data = new FormData();
+    data.append("uid", uid);
+    data.append("uname", uname);
+    data.append("phone", phone);
+    data.append("pwd", pwd);
+
+    post('/api/adm/stu/update', data, success, failure);
+}
+
+export { login, getUserInfo, deleteAccessToken, getClz, getCourse, getTea, getStu, getTask, getStuPage,
+    deleteClz, addClz, updateClz, addCourse, updateCourse, addStu, updateStu
+}
